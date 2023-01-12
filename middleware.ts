@@ -34,11 +34,11 @@ export default async function middleware(req: NextRequest) {
       in this case, our team slug is "platformize", thus *.platformize.vercel.app works. Do note that you'll
       still need to add "*.platformize.vercel.app" as a wildcard domain on your Vercel dashboard. */
   const currentHost =
-    process.env.NODE_ENV === "production" && process.env.VERCEL === "1"
-      ? hostname
-          .replace(`.vercel.pub`, "")
-          .replace(`.platformize.vercel.app`, "")
-      : hostname.replace(`.localhost:3000`, "");
+      process.env.NODE_ENV === "production" && process.env.VERCEL === "1"
+          ? hostname
+                .replace(`.launchinglab.com`, "")
+                .replace(`.learning-platform-nu.vercel.app`, "")
+          : hostname.replace(`.localhost:3000`, "");
 
   // rewrites for app pages
   if (currentHost == "app") {
@@ -56,8 +56,11 @@ export default async function middleware(req: NextRequest) {
   }
 
   // rewrite root application to `/home` folder
-  if (hostname === "localhost:3000" || hostname === "platformize.vercel.app") {
-    return NextResponse.rewrite(new URL(`/home/${path}`, req.url));
+  if (
+      hostname === "localhost:3000" ||
+      hostname === "learning-platform-nu.vercel.app" || hostname === "app.launchinglab.com"
+  ) {
+      return NextResponse.rewrite(new URL(`/home/${path}`, req.url));
   }
 
   // rewrite everything else to `/_sites/[site] dynamic route
